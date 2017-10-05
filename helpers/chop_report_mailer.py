@@ -72,10 +72,10 @@ def bf_mail_test_one():
 
             mailer.set_body("""
             Hello:<br><br>
-            STUFF!
+            This is a placeholder for some future Blackfynn beef that is to come!
             Thank you,
             <br>
-            The Enterprise Informatics Group's Report Robot<br>
+            Gladys, The Enterprise Informatics Group's Report Robot<br>
             <a href ="http://dbhi.chop.edu/"><i>CHOP's Department of Biomedical and Health Informatics</i></a><br>
             """)
 
