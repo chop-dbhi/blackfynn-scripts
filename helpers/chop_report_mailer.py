@@ -1,10 +1,6 @@
 #!/usr/bin/env python
 
-from datetime import datetime
-import time
-
 from blackfynn import Blackfynn
-from blackfynn import Collection
 from mailer import ChopMailer
 
 FILE_PREFIX = 'BOGUS_test_prefix'
@@ -14,24 +10,28 @@ EMAIL_RECIPIENTS = ['williamsrms@email.chop.edu', 'gonzalezak@email.chop.edu']
 EMAIL_CCS = ['felmeistera@email.chop.edu']
 
 def main():
-    digest = assemble_digest()
-    send_report()
+    send_digest()
 
-def assemble_digest():
+def send_digest():
     report = []
     report.append("<h2>Blackfynn: BioRC Failed Extract Digest</h2>")
     bf = Blackfynn()
     root = bf.get('N:collection:4fec4882-925c-4328-bbfd-d1de953ba225')
     for bucket in root.items:
-        report.append(bucket_digest(bucket))
+        include_count = True if bucket.id == "N:collection:0e476218-ccb9-4c4d-bdb4-e72d0a0f88fd" else False
+        bucket_digest(report, bucket, include_count)
     send_report(report)
 
-def bucket_digest(bucket):
+def bucket_digest(report, bucket, include_count):
     report.append(bucket.name + ":<br />")
     if bucket.items:
         report.append("<ul>")
-        for extract in bucket.items:
-            report.append("<li>" + extract.name + "</li>")
+        for item in bucket.items:
+            report.append("<li>")            
+            report.append(item.name)
+            if include_count:
+                report.append(" (" + str(len(item.items)) + " pending)")
+            report.append("</li>")
         report.append("</ul>")
     report.append("<br /><br />")
 
